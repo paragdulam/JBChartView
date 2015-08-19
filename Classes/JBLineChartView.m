@@ -1329,8 +1329,14 @@ static UIColor *kJBLineChartViewDefaultDotSelectionColor = nil;
 
         shapeFillLayer.path = fillPath.CGPath;
         shapeFillLayer.frame = self.bounds;
+        shapeFillLayer.fillColor = [UIColor whiteColor].CGColor; //enforcing white color for adding the gradient
         
-        [self.layer addSublayer:shapeFillLayer];
+        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+        gradientLayer.colors = @[(id)[UIColor colorWithWhite:1.0 alpha:.6].CGColor,(id)[UIColor colorWithWhite:1.0 alpha:0].CGColor];
+        gradientLayer.mask = shapeFillLayer;
+        gradientLayer.frame = shapeFillLayer.bounds;
+        
+        [self.layer addSublayer:gradientLayer];
         [self.layer addSublayer:shapeLayer];
 
         lineIndex++;
